@@ -86,7 +86,15 @@
       <button>Trigger a Global Error</button>
     </section>
   </main>
-
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "433678ddf35145b1a83d6f7f5026f015"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+    TrackJS.track('Testing TrackJS!');
+  </script>
+  
   <script>
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
@@ -95,13 +103,96 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      try{
+        if(firstNum === '' || secondNum === '') throw "nothing Is Present in Output"
+        if(isNaN(firstNum) || isNaN(secondNum)) throw "these are not valid numbers"
+        if(operator == '/' && secondNum == '0') throw "cannot Divide By Zero"
+
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      }
+      catch(error){
+        output.innerHTML = "Error is " + error;
+      }
+      finally{
+        console.log("Calculation achieved")
+      }
+
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
     // Start your code here
     // You may move this JS to another file if you wish
+    errorBtns[0].addEventListener("click", ()=>{
+      console.log("Console Log");
+    });
+    errorBtns[1].addEventListener("click", ()=>{
+      console.error("Console Error");
+    });
+    errorBtns[2].addEventListener("click", ()=>{
+      console.count("Console Count");
+    });
+    errorBtns[3].addEventListener("click", ()=>{
+      console.warn("Console Warn");
+    });
+    errorBtns[4].addEventListener("click", ()=>{
+      console.assert(false, "Console Assert");
+    });
+    errorBtns[5].addEventListener("click", ()=>{
+      console.clear();
+    });
+    errorBtns[6].addEventListener("click", ()=>{
+      console.dir(errorBtns[6]);
+    });
+    errorBtns[7].addEventListener("click", ()=>{
+      console.dirxml(errorBtns[7]);
+    });
+    errorBtns[8].addEventListener("click", ()=>{
+      console.group("Console Group");
+    });
+    errorBtns[9].addEventListener("click", ()=>{
+      console.groupEnd("Console Group End");
+    });
+    errorBtns[10].addEventListener("click", ()=>{
+      console.table([{name: "Software Engineering", nums: 110},
+        {name: "Programming Language Principles", nums: 130},
+        {name: "Advanced Software Engineering", nums: 112}]);
+    });
+    errorBtns[11].addEventListener("click", ()=>{
+      console.time("Console Timer");
+    });
+    errorBtns[12].addEventListener("click", ()=>{
+      console.timeEnd("Console Timer");
+    });
+    errorBtns[13].addEventListener("click", ()=>{
+      function thirdLevel(){
+        console.trace("Console Trace");
+      }
+      function secondLevel(){
+        thirdLevel();
+      }
+      function firstLevel(){
+        secondLevel();
+      }
+      function zeroLevel(){
+        firstLevel();
+      }
+      zeroLevel();
+    });
+
+
+    errorBtns[14].addEventListener("click", ()=>{
+      throw new Error("Unknown Abort Site ASAP");
+    });
+
+
+
+
+    
+
+
+
+
   </script>
 </body>
 
